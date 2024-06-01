@@ -28,3 +28,36 @@
     text-align: center;
     margin-bottom: 20px;
 }
+
+
+.profile-selector {
+    margin-bottom: 20px;
+}
+
+.profile-selector label {
+    font-size: 1.2em;
+    margin-right: 10px;
+}
+
+.profile-select {
+    appearance: none;
+    background-color: #fff;
+    border: 2px solid #007bff;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1em;
+    color: #333;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.profile-select:hover {
+    border-color: #0056b3;
+    box-shadow: 0 0 5px rgba(0, 91, 187, 0.5);
+}
+
+.profile-select:focus {
+    outline: none;
+    border-color: #0056b3;
+    box-shadow: 0 0 5px rgba(0, 91, 187, 0.5);
+}

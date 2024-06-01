@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { useProfileContext } from "../../context/ProfileContext";
 import { useTaskContext } from "../../context/TaskContext";
 import "./Modal.css";
 
@@ -12,6 +13,7 @@ export const Modal: React.FC = () => {
     toggleTaskCompletion,
     closeModal,
   } = useTaskContext();
+  const { profile } = useProfileContext();
   const [newTask, setNewTask] = useState("");
   const [error, setError] = useState("");
 
@@ -56,7 +58,7 @@ export const Modal: React.FC = () => {
 
         <h2 className="modal__header">Tasks for {selectedDay}</h2>
         <ul className="modal__task-list">
-          {tasks[selectedDay]?.map((task, index) => (
+          {tasks[profile]?.[selectedDay]?.map((task, index) => (
             <li
               key={index}
               className={`modal__task-item ${

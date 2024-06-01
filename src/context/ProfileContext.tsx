@@ -1,13 +1,19 @@
-import React, { ReactNode, createContext, useState } from "react";
+import React, { ReactNode, createContext, useContext, useState } from "react";
 
 interface ProfileContextType {
   profile: string;
   setProfile: (profile: string) => void;
 }
 
-export const ProfileContext = createContext<ProfileContextType | undefined>(
-  undefined
-);
+const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
+
+export const useProfileContext = (): ProfileContextType => {
+  const context = useContext(ProfileContext);
+  if (!context) {
+    throw new Error("useProfileContext must be used within a ProfileProvider");
+  }
+  return context;
+};
 
 export const ProfileProvider: React.FC<{ children: ReactNode }> = ({
   children,

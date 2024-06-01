@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
+import { useProfileContext } from "./ProfileContext";
 
 interface Task {
   text: string;
@@ -12,7 +13,7 @@ interface Task {
 }
 
 interface TaskContextType {
-  tasks: { [key: number]: Task[] };
+  tasks: { [profile: string]: { [key: number]: Task[] } };
   selectedDay: number | null;
   openModal: (day: number) => void;
   closeModal: () => void;
@@ -35,7 +36,10 @@ export const useTaskContext = (): TaskContextType => {
 export const TaskProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [tasks, setTasks] = useState<{ [key: number]: Task[] }>(() => {
+  const { profile } = useProfileContext();
+  const [tasks, setTasks] = useState<{
+    [profile: string]: { [key: number]: Task[] };
+  }>(() => {
     const storedTasks = localStorage.getItem("tasks");
     return storedTasks ? JSON.parse(storedTasks) : {};
   });
@@ -51,31 +55,43 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({
   const addTask = (day: number, text: string) => {
     setTasks((prevTasks) => ({
       ...prevTasks,
-      [day]: [...(prevTasks[day] || []), { text, completed: false }],
+      [profile]: {
+        ...prevTasks[profile],
+        [day]: [
+          ...(prevTasks[profile]?.[day] || []),
+          { text, completed: false },
+        ],
+      },
     }));
   };
 
   const deleteTask = (day: number, index: number) => {
     setTasks((prevTasks) => {
-      const newTasks = [...(prevTasks[day] || [])];
+      const newTasks = [...(prevTasks[profile]?.[day] || [])];
       newTasks.splice(index, 1);
-      return { ...prevTasks, [day]: newTasks };
+      return {
+        ...prevTasks,
+        [profile]: { ...prevTasks[profile], [day]: newTasks },
+      };
     });
   };
 
   const toggleTaskCompletion = (day: number, index: number) => {
     setTasks((prevTasks) => {
-      const newTasks = [...(prevTasks[day] || [])];
+      const newTasks = [...(prevTasks[profile]?.[day] || [])];
       newTasks[index] = {
         ...newTasks[index],
         completed: !newTasks[index].completed,
       };
-      return { ...prevTasks, [day]: newTasks };
+      return {
+        ...prevTasks,
+        [profile]: { ...prevTasks[profile], [day]: newTasks },
+      };
     });
   };
 
   const clearAllTasks = () => {
-    setTasks({});
+    setTasks((prevTasks) => ({ ...prevTasks, [profile]: {} }));
   };
 
   return (
