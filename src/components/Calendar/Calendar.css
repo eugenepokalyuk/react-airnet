@@ -34,6 +34,29 @@
   background-color: #ccc;
 }
 
+.view-mode-toggle {
+  margin-bottom: 20px;
+}
+
+.view-mode-button {
+  background-color: #e4e4e4;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  margin: 0 5px;
+  transition: background-color 0.3s ease;
+}
+
+.view-mode-button.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.view-mode-button:hover {
+  background-color: #0056b3;
+}
+
 .calendar {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
