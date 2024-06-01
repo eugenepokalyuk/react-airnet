@@ -6,7 +6,7 @@ import "./Modal.css";
 
 export const Modal: React.FC = () => {
   const {
-    selectedDay,
+    selectedDate,
     tasks,
     addTask,
     deleteTask,
@@ -16,22 +16,6 @@ export const Modal: React.FC = () => {
   const { profile } = useProfileContext();
   const [newTask, setNewTask] = useState("");
   const [error, setError] = useState("");
-
-  const handleAddTask = () => {
-    if (newTask.trim() === "") {
-      setError("Task cannot be empty");
-      return;
-    }
-    addTask(selectedDay!, newTask);
-    setNewTask("");
-    setError("");
-  };
-
-  const handleKeyPress = (e: KeyboardEvent) => {
-    if (e.key === "Enter") {
-      handleAddTask();
-    }
-  };
 
   useEffect(() => {
     const input = document.querySelector(
@@ -47,7 +31,27 @@ export const Modal: React.FC = () => {
     };
   }, [newTask]);
 
-  if (!selectedDay) return null;
+  if (!selectedDate) return null;
+
+  const { day, month, year } = selectedDate;
+  const dateKey = `${year}-${month}-${day}`;
+  const tasksForDay = tasks[profile]?.[dateKey] || [];
+
+  const handleAddTask = () => {
+    if (newTask.trim() === "") {
+      setError("Task cannot be empty");
+      return;
+    }
+    addTask(day, month, year, newTask);
+    setNewTask("");
+    setError("");
+  };
+
+  const handleKeyPress = (e: KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleAddTask();
+    }
+  };
 
   return createPortal(
     <div className="modal">
@@ -56,9 +60,11 @@ export const Modal: React.FC = () => {
           ×
         </button>
 
-        <h2 className="modal__header">Tasks for {selectedDay}</h2>
+        <h2 className="modal__header">
+          Tasks for {day}/{month + 1}/{year}
+        </h2>
         <ul className="modal__task-list">
-          {tasks[profile]?.[selectedDay]?.map((task, index) => (
+          {tasksForDay.map((task, index) => (
             <li
               key={index}
               className={`modal__task-item ${
@@ -75,13 +81,15 @@ export const Modal: React.FC = () => {
               {!task.completed && (
                 <div className="modal__task-buttons">
                   <button
-                    onClick={() => toggleTaskCompletion(selectedDay, index)}
+                    onClick={() =>
+                      toggleTaskCompletion(day, month, year, index)
+                    }
                     className="modal__mark-done-button"
                   >
                     Finish
                   </button>
                   <button
-                    onClick={() => deleteTask(selectedDay, index)}
+                    onClick={() => deleteTask(day, month, year, index)}
                     className="modal__delete-button"
                   >
                     Del

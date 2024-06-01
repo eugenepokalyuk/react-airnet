@@ -13,13 +13,18 @@ interface Task {
 }
 
 interface TaskContextType {
-  tasks: { [profile: string]: { [key: number]: Task[] } };
-  selectedDay: number | null;
-  openModal: (day: number) => void;
+  tasks: { [profile: string]: { [date: string]: Task[] } };
+  selectedDate: { day: number; month: number; year: number } | null;
+  openModal: (day: number, month: number, year: number) => void;
   closeModal: () => void;
-  addTask: (day: number, text: string) => void;
-  deleteTask: (day: number, index: number) => void;
-  toggleTaskCompletion: (day: number, index: number) => void;
+  addTask: (day: number, month: number, year: number, text: string) => void;
+  deleteTask: (day: number, month: number, year: number, index: number) => void;
+  toggleTaskCompletion: (
+    day: number,
+    month: number,
+    year: number,
+    index: number
+  ) => void;
   clearAllTasks: () => void;
 }
 
@@ -38,54 +43,72 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const { profile } = useProfileContext();
   const [tasks, setTasks] = useState<{
-    [profile: string]: { [key: number]: Task[] };
+    [profile: string]: { [date: string]: Task[] };
   }>(() => {
     const storedTasks = localStorage.getItem("tasks");
     return storedTasks ? JSON.parse(storedTasks) : {};
   });
-  const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const [selectedDate, setSelectedDate] = useState<{
+    day: number;
+    month: number;
+    year: number;
+  } | null>(null);
 
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  const openModal = (day: number) => setSelectedDay(day);
-  const closeModal = () => setSelectedDay(null);
+  const openModal = (day: number, month: number, year: number) =>
+    setSelectedDate({ day, month, year });
+  const closeModal = () => setSelectedDate(null);
 
-  const addTask = (day: number, text: string) => {
+  const addTask = (day: number, month: number, year: number, text: string) => {
+    const dateKey = `${year}-${month}-${day}`;
     setTasks((prevTasks) => ({
       ...prevTasks,
       [profile]: {
         ...prevTasks[profile],
-        [day]: [
-          ...(prevTasks[profile]?.[day] || []),
+        [dateKey]: [
+          ...(prevTasks[profile]?.[dateKey] || []),
           { text, completed: false },
         ],
       },
     }));
   };
 
-  const deleteTask = (day: number, index: number) => {
+  const deleteTask = (
+    day: number,
+    month: number,
+    year: number,
+    index: number
+  ) => {
+    const dateKey = `${year}-${month}-${day}`;
     setTasks((prevTasks) => {
-      const newTasks = [...(prevTasks[profile]?.[day] || [])];
+      const newTasks = [...(prevTasks[profile]?.[dateKey] || [])];
       newTasks.splice(index, 1);
       return {
         ...prevTasks,
-        [profile]: { ...prevTasks[profile], [day]: newTasks },
+        [profile]: { ...prevTasks[profile], [dateKey]: newTasks },
       };
     });
   };
 
-  const toggleTaskCompletion = (day: number, index: number) => {
+  const toggleTaskCompletion = (
+    day: number,
+    month: number,
+    year: number,
+    index: number
+  ) => {
+    const dateKey = `${year}-${month}-${day}`;
     setTasks((prevTasks) => {
-      const newTasks = [...(prevTasks[profile]?.[day] || [])];
+      const newTasks = [...(prevTasks[profile]?.[dateKey] || [])];
       newTasks[index] = {
         ...newTasks[index],
         completed: !newTasks[index].completed,
       };
       return {
         ...prevTasks,
-        [profile]: { ...prevTasks[profile], [day]: newTasks },
+        [profile]: { ...prevTasks[profile], [dateKey]: newTasks },
       };
     });
   };
@@ -98,7 +121,7 @@ export const TaskProvider: React.FC<{ children: ReactNode }> = ({
     <TaskContext.Provider
       value={{
         tasks,
-        selectedDay,
+        selectedDate,
         openModal,
         closeModal,
         addTask,

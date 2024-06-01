@@ -1,3 +1,39 @@
+.calendar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.calendar-header {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.calendar-header h2 {
+  margin: 0 10px;
+}
+
+.calendar-nav-button {
+  background-color: #fff;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 48px;
+  height: 48px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-nav-button:hover {
+  background-color: #ccc;
+}
+
 .calendar {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -17,6 +53,11 @@
   transition: transform 0.2s ease, background-color 0.3s ease;
 }
 
+.day--empty {
+  background-color: transparent;
+  cursor: default;
+}
+
 .day--holiday {
   background-color: #ffe6e6;
 }
@@ -27,22 +68,22 @@
 }
 
 .day--has-tasks {
-  border: 2px solid #007bff;
+  outline: 2px solid #007bff;
 }
 
 .day--all-completed {
-  border: 2px solid #28a745;
+  outline: 2px solid #28a745;
 }
 
 @media (max-width: 1024px) {
   .calendar {
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 
 @media (max-width: 768px) {
   .calendar {
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 
   .day {
@@ -52,7 +93,7 @@
 
 @media (max-width: 480px) {
   .calendar {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .day {
