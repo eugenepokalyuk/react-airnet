@@ -1,46 +1,85 @@
-# Getting Started with Create React App
+# To-Do List Calendar App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a To-Do List application presented in a calendar view where each day is a list of tasks. Users can add, delete, and mark tasks as completed. The application supports multiple profiles, each having their own list of tasks.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Calendar view of tasks
+- Modal window for managing tasks per day
+- Multiple profiles support
+- Monthly and weekly views
+- Task data persistence
+- Responsive design
 
-### `npm start`
+## Technologies Used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- React
+- TypeScript
+- Context API
+- Jest & React Testing Library
+- IsDayOff Library
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<img src="https://skillicons.dev/icons?i=react,ts,jest" />
 
-### `npm test`
+## Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To get a local copy up and running, follow these steps:
 
-### `npm run build`
+### Prerequisites
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Make sure you have the following installed:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Node.js
+- npm
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Installation
 
-### `npm run eject`
+1. Clone the repository
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    ```bash
+    git clone https://github.com/eugenepokalyuk/react-airnet.git
+    cd react-airnet
+    ```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. **Install dependencies**:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+    ```bash
+    npm install
+    ```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+3. **Start the development server**:
 
-## Learn More
+    ```bash
+    npm start
+    ```
+4. **Open the application**:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+   Open your browser and navigate to `http://localhost:3000`.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Project Structure
+
+```
+src/
+├── assets/
+│   └── fonts
+├── components/
+│   ├── App ── App.tsx - Main application component
+│   ├── Calendar ── Calendar.tsx - Calendar component
+│   └── Modal ── Modal.tsx - Modal component for managing tasks
+├── context/
+│   ├── ProfileContext.tsx - Context for managing user profiles
+│   └── TaskContext.tsx - Context for managing tasks
+├── index.css
+└── index.tsx
+```
+
+## Deployment
+
+To build the application for production, run:
+
+```bash
+npm run build
+```
+
+The built files will be in the `build` directory, which can be deployed to any static hosting service.
