@@ -23,6 +23,15 @@
     "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-dom/extend-expect"
+    ],
+    "testEnvironment": "jsdom",
+    "moduleNameMapper": {
+      "\\.(css|less)$": "./src/test/__mocks__/styleMock.js"
+    }
+  },  
   "eslintConfig": {
     "extends": [
       "react-app",
