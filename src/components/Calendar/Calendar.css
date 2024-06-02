@@ -100,13 +100,13 @@
 
 @media (max-width: 1024px) {
   .calendar {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
   }
 }
 
 @media (max-width: 768px) {
   .calendar {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
   }
 
   .day {
@@ -116,7 +116,7 @@
 
 @media (max-width: 480px) {
   .calendar {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 
   .day {
